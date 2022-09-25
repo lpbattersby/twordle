@@ -1,19 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './TwordleTile.css';
+import AppContext from "../AppContext";
 
 type States = "correct-place" | "wrong-place" | "incorrect" | "input";
 
 export type TwordleTileProps = {
   disabled : boolean,
+  isInput : boolean,
   state: States,
-  letter: string
+  coordinates: number[]
 }
 
 const TwordleTile = (props: TwordleTileProps) => {
-  const { state, disabled, letter } = props;
+  const { state, disabled, isInput, coordinates } = props;
+  const { currentGuessGrid } = useContext(AppContext)!;
 
   const backgroundColor = () => {
-    if (disabled) {
+    if (!isInput) {
       return "#333333";
     }
     else {
@@ -30,15 +33,15 @@ const TwordleTile = (props: TwordleTileProps) => {
 
   return (
     <div className="TwordleTile" style={{backgroundColor: backgroundColor()}}>
-      {!disabled ? letter : null}
+      {isInput ? currentGuessGrid[coordinates[0]][coordinates[1]] : null}
     </div>
   )
 }
 
 TwordleTile.defaultProps = {
   disabled: false,
-  state: "incorrect",
-  letter: ""
+  isInput: false,
+  state: "incorrect"
 }
 
 export default TwordleTile;

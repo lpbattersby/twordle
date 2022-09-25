@@ -4,7 +4,16 @@ import TwordleGame from "./components/TwordleGame/TwordleGame";
 import AppContext, { IAppContext } from "./components/AppContext";
 
 function App() {
-  const appContext: IAppContext = {};
+  const appContext: IAppContext = {
+    currentGuessGrid: [
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""]
+    ]
+  };
 
   return (
     <AppContext.Provider value={appContext}>
