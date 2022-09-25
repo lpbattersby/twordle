@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import TwordleGame from "./components/TwordleGame/TwordleGame";
 import AppContext, { IAppContext } from "./components/AppContext";
 
 function App() {
+  const [ currentGuessGrid, setCurrentGuessGrid ] = useState([
+    ["", "", "", "", ""],
+    ["", "", "", "", ""],
+    ["", "", "", "", ""],
+    ["", "", "", "", ""],
+    ["", "", "", "", ""],
+    ["", "", "", "", ""]
+  ])
   const appContext: IAppContext = {
-    currentGuessGrid: [
-      ["", "", "", "", ""],
-      ["", "", "", "", ""],
-      ["", "", "", "", ""],
-      ["", "", "", "", ""],
-      ["", "", "", "", ""],
-      ["", "", "", "", ""]
-    ]
+    currentGuessGrid: currentGuessGrid,
+    setCurrentGuessGrid: setCurrentGuessGrid
   };
 
   return (
