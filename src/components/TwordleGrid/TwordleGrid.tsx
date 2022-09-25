@@ -13,4 +13,8 @@ const TwordleGrid = ({ children }: TwordleGridProps) => {
   )
 }
 
+TwordleGrid.defaultProps = {
+ isActive: true,
+}
+
 export default TwordleGrid;
