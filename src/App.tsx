@@ -2,15 +2,20 @@ import React from 'react';
 import './App.css';
 import TwordleGrid from "./components/TwordleGrid/TwordleGrid";
 import TwordleTile from "./components/TwordleTile/TwordleTile";
+import GenerateDefaultTileProps from "./utils/GenerateDefaultTileProps";
 
 function App() {
+
+
   return (
     <div className="App">
+      <h1>Twordle</h1>
       <TwordleGrid>
-        <TwordleTile letter={"a"} state={"correct-place"}/>
-        <TwordleTile state={"incorrect"} letter={"z"}/>
-        <TwordleTile disabled={true}/>
-        <TwordleTile state={"wrong-place"} letter={"b"}/>
+        {GenerateDefaultTileProps().map((tile) => {
+          return (
+            <TwordleTile disabled={tile.disabled}/>
+          )
+        })}
       </TwordleGrid>
     </div>
   );
