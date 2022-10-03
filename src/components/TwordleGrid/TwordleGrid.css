@@ -1,6 +1,6 @@
 .TwordleGrid {
     width: 100vw;
-    height: 100vw;
+    margin: 5px 0px;
     font-size: 9vw;
     display: grid;
     grid-template-columns: 10vw 10vw 10vw 10vw 10vw;

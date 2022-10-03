@@ -7,10 +7,10 @@ const GenerateGameTileProps = (gameGrid: string[][]) => {
     tileProps.push([]);
     for (let c = 0; c < 5; c++){
       if (gameGrid[r][c] !== ""){
-        tileProps[r].push({ disabled: false, coordinates: [r, c], state: "incorrect", isInput: true });
+        tileProps[r].push({ disabled: false, coordinates: [r, c], tileType: "incorrect", isInput: true });
       }
       else {
-        tileProps[r].push({ disabled: false, coordinates: [r, c], state: "incorrect", isInput: false });
+        tileProps[r].push({ disabled: false, coordinates: [r, c], tileType: "incorrect", isInput: false });
       }
     }
   }

@@ -1,35 +1,38 @@
-import React, { ChangeEvent, useContext, useState } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import './TwordleTile.css';
 import AppContext from "../AppContext";
 
-type States = "correct-place" | "wrong-place" | "incorrect" | "input";
+type TileType = "correct-place" | "wrong-place" | "incorrect";
 
 export interface TwordleTileProps extends React.HTMLProps<any> {
   disabled : boolean,
   isInput : boolean,
-  state: States,
+  tileType: TileType,
   coordinates: number[]
 }
 
-const TwordleTile = ({ state, disabled, isInput, coordinates }: TwordleTileProps) => {
+const getBackgroundColor = (isInput: boolean, state: TileType) => {
+  if (!isInput) {
+    return "#333333";
+  }
+  switch (state) {
+    case "correct-place":
+      return "#0c7a30";
+    case "incorrect":
+      return "#777777";
+    case "wrong-place":
+      return "#c58c0c";
+  }
+};
+
+const TwordleTile = ({ tileType, disabled, isInput, coordinates }: TwordleTileProps) => {
   const [ letter, setLetter ] = useState("");
   const { currentGuessGrid, setCurrentGuessGrid } = useContext(AppContext)!;
+  const [ color, setColor ] = useState("#333333");
 
-  const backgroundColor = () => {
-    if (!isInput) {
-      return "#333333";
-    }
-    else {
-      switch (state) {
-        case "correct-place":
-          return "#0c7a30";
-        case "incorrect":
-          return "#777777";
-        case "wrong-place":
-          return "#c58c0c";
-      }
-    }
-  };
+  useEffect(() => {
+    setColor(getBackgroundColor(isInput, tileType));
+  }, [tileType, isInput]);
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setLetter(e.target.value);
@@ -39,7 +42,7 @@ const TwordleTile = ({ state, disabled, isInput, coordinates }: TwordleTileProps
   };
 
   return (
-    <div className="TwordleTile" style={{backgroundColor: backgroundColor()}}>
+    <div className="TwordleTile" style={{backgroundColor: color}}>
       {isInput && !disabled ?
         <input
           className={"TwordleTileInput"}
