@@ -1,10 +1,11 @@
 .TwordleGrid {
-    width: 50vw;
-    height: 50vw;
+    width: 100vw;
+    height: 100vw;
     font-size: 9vw;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 10vw 10vw 10vw 10vw 10vw;
+    grid-template-rows: 10vw 10vw 10vw 10vw 10vw;
     grid-gap: 2px;
     border: solid 2px white;
+    justify-content: center;
 }

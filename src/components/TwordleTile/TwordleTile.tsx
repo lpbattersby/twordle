@@ -1,9 +1,9 @@
 import React from 'react';
 import './TwordleTile.css';
 
-type States = "correct-place" | "wrong-place" | "incorrect";
+type States = "correct-place" | "wrong-place" | "incorrect" | "input";
 
-type TwordleTileProps = {
+export type TwordleTileProps = {
   disabled : boolean,
   state: States,
   letter: string
