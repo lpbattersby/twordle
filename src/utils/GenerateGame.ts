@@ -11,7 +11,7 @@ const GenerateGame = (word1: string, word2: string) => {
         break;
       }
     }
-    console.log(word1Index, word2Index)
+
     return [word1Index, word2Index];
   }
 
@@ -38,7 +38,29 @@ const GenerateGame = (word1: string, word2: string) => {
     return gameGrid;
   }
 
-  return GenerateGameGrid(word2Column, word1Row);
+  const GetLetterCount = (word1CommonLetterIndex: number) => {
+    const combinedLetters = word1.replace(`${word1[word1CommonLetterIndex]}`, "") + word2;
+
+    let counts : Record<string, number> = {};
+
+    let ch, index, len, count;
+
+    for (index = 0, len = combinedLetters.length; index < len; ++index) {
+
+      ch = combinedLetters.charAt(index);
+
+      count = counts[ch];
+
+      counts[ch] = count ? count + 1 : 1;
+    }
+
+    return counts;
+  }
+
+  const gameGrid = GenerateGameGrid(word2Column, word1Row);
+  const letterCounts = GetLetterCount(word1Row)
+
+  return { gameGrid, letterCounts };
 }
 
 export default GenerateGame;
