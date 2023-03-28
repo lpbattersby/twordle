@@ -3,8 +3,8 @@
     margin: 5px 0px;
     font-size: 9vw;
     display: grid;
-    grid-template-columns: 10vw 10vw 10vw 10vw 10vw;
-    grid-template-rows: 10vw 10vw 10vw 10vw 10vw;
+    grid-template-columns: 8vw 8vw 8vw 8vw 8vw;
+    grid-template-rows: 8vw 8vw 8vw 8vw 8vw;
     grid-gap: 2px;
     border: solid 2px white;
     justify-content: center;

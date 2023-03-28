@@ -1,20 +1,26 @@
 import Games from "../../data/games.json";
 import GenerateGame from "../../utils/GenerateGame";
+import dateDiffInDays from "../../utils/DateDiffInDays";
 import Grid from "../Grid/Grid";
 import GenerateGameTileProps from "../../utils/GenerateGameTileProps";
 import Tile, { TileProps } from "../Tile/Tile";
 import React, { useContext, useState } from "react";
 import AppContext from "../AppContext";
+import checkCurrentWords from "../../utils/CheckCurrentWords";
 
 function Game() {
-  const gameNumber = Math.abs(new Date().getDate() - new Date(process.env.REACT_APP_INITIAL_DATE!).getDate()) + 1;
+  const today = new Date();
+  const startDate = new Date(process.env.REACT_APP_INITIAL_DATE!);
+  const gameNumber = dateDiffInDays(today, startDate)
   const words = Games[gameNumber];
 
   const { currentGrid, setCurrentGrid } = useContext(AppContext)!;
-  const { solutionGrid, solutionLetterCounts } = GenerateGame(words[0], words[1]);
+  const { solutionGrid, solutionLetterCounts, gameShape } = GenerateGame(words[0], words[1]);
 
-  // const [ pastGuesses, setPastGuesses ] = useState<string[][][]>([]);
+  const [ pastGuesses, setPastGuesses ] = useState<string[][][]>([]);
   const [ gridPropsList, setGridPropsList ] = useState<TileProps[][][]>([GenerateGameTileProps(solutionGrid)]);
+
+  const [ msg, setMsg ] = useState("");
 
   const startNewGuess = () => {
     checkLetters();
@@ -35,12 +41,12 @@ function Game() {
     //
     // console.log(newGridPropsList);
     //
-    // newPastGuesses.push(currentGuessGrid);
-    // newGridPropsList.push(GenerateGameTileProps(answersGrid));
+    // newPastGuesses.push(currentGrid);
+    // newGridPropsList.push(GenerateGameTileProps(solutionGrid));
     //
     // setPastGuesses(newPastGuesses);
     // setGridPropsList(newGridPropsList);
-    // setCurrentGuessGrid([
+    // setCurrentGrid([
     //   ["", "", "", "", ""],
     //   ["", "", "", "", ""],
     //   ["", "", "", "", ""],
@@ -51,61 +57,64 @@ function Game() {
   }
 
   const checkLetters = () => {
-    const newTileProps = gridPropsList[gridPropsList.length - 1].map((row) => row.map((tile) => ({...tile})));
+    const { wordsAreValid } = checkCurrentWords(currentGrid, gameShape);
 
-    const yellowLetterCount : Record<string, number> = {}
+    if(wordsAreValid) {
+      setMsg("");
+      const newTileProps = gridPropsList[gridPropsList.length - 1].map((row) => row.map((tile) => ({ ...tile })));
 
-    // check for correct
+      const yellowLetterCount: Record<string, number> = {}
 
-    for (const row of newTileProps){
-      for (const tile of row){
-        const guessedLetter = currentGrid[tile.coordinates[0]][tile.coordinates[1]];
-        const correctLetter = solutionGrid[tile.coordinates[0]][tile.coordinates[1]];
+      // check for correct
 
-        const isCorrect = correctLetter === guessedLetter;
+      for (const row of newTileProps) {
+        for (const tile of row) {
+          const guessedLetter = currentGrid[tile.coordinates[0]][tile.coordinates[1]];
+          const correctLetter = solutionGrid[tile.coordinates[0]][tile.coordinates[1]];
 
-        if(isCorrect) {
-          let count;
-          count = yellowLetterCount[guessedLetter];
-          yellowLetterCount[guessedLetter] = count ? count + 1 : 1;
+          const isCorrect = correctLetter === guessedLetter;
 
-          tile.tileState = "correct-place";
+          if (isCorrect) {
+            let count;
+            count = yellowLetterCount[guessedLetter];
+            yellowLetterCount[guessedLetter] = count ? count + 1 : 1;
+
+            tile.tileState = "correct-place";
+            tile.disabled = true;
+          }
+        }
+      }
+
+      // check for yellow
+
+      for (const row of newTileProps) {
+        for (const tile of row) {
+          const guessedLetter = currentGrid[tile.coordinates[0]][tile.coordinates[1]];
+
+          const isYellow = words.some((word) => word.includes(guessedLetter));
+
+          if (isYellow) {
+            let count;
+            count = yellowLetterCount[guessedLetter];
+            yellowLetterCount[guessedLetter] = count ? count + 1 : 1;
+
+            if (yellowLetterCount[guessedLetter] <= solutionLetterCounts[guessedLetter]) {
+              tile.tileState = "wrong-place";
+            }
+          } else {
+            tile.tileState = "incorrect";
+          }
           tile.disabled = true;
         }
       }
+
+      let newGridPropsList = gridPropsList.map((grid) => grid.map((row) => row.map((prop) => prop)));
+
+      setGridPropsList([...newGridPropsList.slice(0, -1), newTileProps]);
     }
-
-    // check for yellow
-
-    for (const row of newTileProps){
-      for (const tile of row){
-        const guessedLetter = currentGrid[tile.coordinates[0]][tile.coordinates[1]];
-
-        const isYellow = words.some((word) => word.includes(guessedLetter));
-
-        if(isYellow){
-          let count;
-          count = yellowLetterCount[guessedLetter];
-          yellowLetterCount[guessedLetter] = count ? count + 1 : 1;
-
-          if(yellowLetterCount[guessedLetter]<=solutionLetterCounts[guessedLetter]){
-            tile.tileState = "wrong-place";
-          }
-        }
-        else{
-          tile.tileState = "incorrect";
-        }
-        tile.disabled = true;
-      }
+    else {
+      setMsg("Please valid words!");
     }
-
-    console.log(yellowLetterCount);
-    console.log(solutionLetterCounts);
-    console.log(words);
-
-    let newGridPropsList = gridPropsList.map((grid) => grid.map((row) => row.map((prop) => prop)));
-
-    setGridPropsList([...newGridPropsList.slice(0, -1), newTileProps]);
   }
 
   const handleSubmit = () => {
@@ -133,6 +142,9 @@ function Game() {
       </Grid>)})
       }
       <button onClick={() => handleSubmit()}>Submit</button>
+        {msg !== "" ?
+          <p>{msg}</p> : null
+        }
     </div>
   );
 }

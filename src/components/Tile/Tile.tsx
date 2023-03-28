@@ -36,17 +36,18 @@ const Tile = ({ tileState, disabled, coordinates, isInput, chosenLetter }: TileP
   }, [tileState]);
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setCurrentLetter(e.target.value[0] ? e.target.value[0] : e.target.value );
+    setCurrentLetter(e.target.value[0] ? e.target.value[0].toLowerCase() : e.target.value.toLowerCase() );
     let newGuessGrid = currentGrid;
-    newGuessGrid[coordinates[0]][coordinates[1]] = e.target.value[0] ? e.target.value[0] : e.target.value ;
+    newGuessGrid[coordinates[0]][coordinates[1]] = e.target.value[0] ? e.target.value[0].toLowerCase() : e.target.value.toLowerCase() ;
     setCurrentGrid(newGuessGrid);
   };
 
   return (
     <div className="Tile" style={{backgroundColor: color}}>
-      {isInput && !disabled ?
+      {isInput ?
         <input
           className={"TileInput"}
+          disabled={disabled}
           value={currentLetter.toUpperCase()}
           onChange={(e) => handleOnChange(e)}
         /> : null
