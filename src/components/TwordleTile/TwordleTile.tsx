@@ -3,7 +3,13 @@ import './TwordleTile.css';
 
 type States = "correct-place" | "wrong-place" | "incorrect";
 
-const TwordleTile = (props: {disabled : boolean, state: States, letter: string}) => {
+type TwordleTileProps = {
+  disabled : boolean,
+  state: States,
+  letter: string
+}
+
+const TwordleTile = (props: TwordleTileProps) => {
   const { state, disabled, letter } = props;
 
   const backgroundColor = () => {
