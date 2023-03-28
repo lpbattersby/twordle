@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { ChangeEvent, useContext, useState } from 'react';
 import './TwordleTile.css';
 import AppContext from "../AppContext";
 
@@ -13,7 +13,8 @@ export type TwordleTileProps = {
 
 const TwordleTile = (props: TwordleTileProps) => {
   const { state, disabled, isInput, coordinates } = props;
-  const { currentGuessGrid } = useContext(AppContext)!;
+  const [ letter, setLetter ] = useState("");
+  const { currentGuessGrid, setCurrentGuessGrid } = useContext(AppContext)!;
 
   const backgroundColor = () => {
     if (!isInput) {
@@ -31,9 +32,22 @@ const TwordleTile = (props: TwordleTileProps) => {
     }
   };
 
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setLetter(e.target.value);
+    let newGuessGrid = currentGuessGrid;
+    newGuessGrid[coordinates[0]][coordinates[1]] = e.target.value;
+    setCurrentGuessGrid(newGuessGrid);
+  };
+
   return (
     <div className="TwordleTile" style={{backgroundColor: backgroundColor()}}>
-      {isInput ? currentGuessGrid[coordinates[0]][coordinates[1]] : null}
+      {isInput && !disabled ?
+        <input
+          className={"TwordleTileInput"}
+          value={letter.toUpperCase()}
+          onChange={(e) => handleOnChange(e)}
+        /> : null
+      }
     </div>
   )
 }
