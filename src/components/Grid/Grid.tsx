@@ -1,20 +1,20 @@
 import React from 'react';
-import './TwordleGrid.css';
+import './Grid.css';
 
 export interface TwordleGridProps extends React.HTMLProps<any> {
  isActive: boolean;
 }
 
-const TwordleGrid = ({ children }: TwordleGridProps) => {
+const Grid = ({ children }: TwordleGridProps) => {
   return (
-    <div className="TwordleGrid">
+    <div className="Grid">
       {children}
     </div>
   )
 }
 
-TwordleGrid.defaultProps = {
+Grid.defaultProps = {
  isActive: true,
 }
 
-export default TwordleGrid;
+export default Grid;

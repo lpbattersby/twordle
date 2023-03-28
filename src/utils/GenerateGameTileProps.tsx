@@ -1,16 +1,16 @@
-import { TwordleTileProps } from "../components/TwordleTile/TwordleTile";
+import { TileProps } from "../components/Tile/Tile";
 
-const GenerateGameTileProps = (gameGrid: string[][]) => {
-  let tileProps : TwordleTileProps[][] = [];
+const GenerateGameTileProps = (answersGrid: string[][]) => {
+  let tileProps : TileProps[][] = [];
 
   for (let r = 0; r < 5; r++) {
     tileProps.push([]);
     for (let c = 0; c < 5; c++){
-      if (gameGrid[r][c] !== ""){
-        tileProps[r].push({ disabled: false, coordinates: [r, c], tileType: "incorrect", isInput: true });
+      if (answersGrid[r][c] !== ""){
+        tileProps[r].push({ disabled: false, coordinates: [r, c], tileState: "incorrect", isInput: true, chosenLetter: "" });
       }
       else {
-        tileProps[r].push({ disabled: false, coordinates: [r, c], tileType: "incorrect", isInput: false });
+        tileProps[r].push({ disabled: false, coordinates: [r, c], tileState: "incorrect", isInput: false, chosenLetter: "" });
       }
     }
   }

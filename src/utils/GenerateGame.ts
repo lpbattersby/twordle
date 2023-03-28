@@ -17,7 +17,7 @@ const GenerateGame = (word1: string, word2: string) => {
 
   const [ word1Row, word2Column ] = FindCommonLetterIndices();
 
-  const GenerateGameGrid = (word2Column: number, word1Row: number) => {
+  const GenerateAnswersGrid = (word2Column: number, word1Row: number) => {
     let gameGrid: string[][] = [
       ["", "", "", "", ""],
       ["", "", "", "", ""],
@@ -57,10 +57,10 @@ const GenerateGame = (word1: string, word2: string) => {
     return counts;
   }
 
-  const gameGrid = GenerateGameGrid(word2Column, word1Row);
-  const letterCounts = GetLetterCount(word1Row)
+  const solutionGrid = GenerateAnswersGrid(word2Column, word1Row);
+  const solutionLetterCounts = GetLetterCount(word1Row)
 
-  return { gameGrid, letterCounts };
+  return { solutionGrid, solutionLetterCounts };
 }
 
 export default GenerateGame;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import TwordleGame from "./components/TwordleGame/TwordleGame";
+import Game from "./components/Game/Game";
 import AppContext, { IAppContext } from "./components/AppContext";
 
 function App() {
@@ -13,15 +13,15 @@ function App() {
     ["", "", "", "", ""]
   ])
   const appContext: IAppContext = {
-    currentGuessGrid: currentGuessGrid,
-    setCurrentGuessGrid: setCurrentGuessGrid
+    currentGrid: currentGuessGrid,
+    setCurrentGrid: setCurrentGuessGrid
   };
 
   return (
     <AppContext.Provider value={appContext}>
       <div className={"App"}>
         <h1>Twordle</h1>
-        <TwordleGame/>
+        <Game/>
       </div>
     </AppContext.Provider>
   );
