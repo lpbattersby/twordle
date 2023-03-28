@@ -4,15 +4,14 @@ import AppContext from "../AppContext";
 
 type States = "correct-place" | "wrong-place" | "incorrect" | "input";
 
-export type TwordleTileProps = {
+export interface TwordleTileProps extends React.HTMLProps<any> {
   disabled : boolean,
   isInput : boolean,
   state: States,
   coordinates: number[]
 }
 
-const TwordleTile = (props: TwordleTileProps) => {
-  const { state, disabled, isInput, coordinates } = props;
+const TwordleTile = ({ state, disabled, isInput, coordinates }: TwordleTileProps) => {
   const [ letter, setLetter ] = useState("");
   const { currentGuessGrid, setCurrentGuessGrid } = useContext(AppContext)!;
 

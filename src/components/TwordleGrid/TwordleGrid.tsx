@@ -1,10 +1,14 @@
 import React from 'react';
 import './TwordleGrid.css';
 
-const TwordleGrid = (props: React.HTMLProps<any>) => {
+export interface TwordleGridProps extends React.HTMLProps<any> {
+ isActive: boolean;
+}
+
+const TwordleGrid = ({ children }: TwordleGridProps) => {
   return (
     <div className="TwordleGrid">
-      {props.children}
+      {children}
     </div>
   )
 }
