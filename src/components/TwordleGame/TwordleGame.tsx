@@ -15,11 +15,16 @@ function TwordleGame() {
     <div>
       <h2>Game {gameNumber}</h2>
       <TwordleGrid>
-        {GenerateGameTileProps(gameGrid).map((tile, index) => {
-          return (
-            <TwordleTile key={index} disabled={tile.disabled}/>
-          )
-        })}
+        {GenerateGameTileProps(gameGrid).map((row, index) => {
+            return (
+              row.map((tileProps, index) => {
+                return (
+                  <TwordleTile key={index} disabled={tileProps.disabled} isInput={tileProps.isInput} coordinates={tileProps.coordinates}/>
+                )
+              })
+            )
+        }
+          )}
       </TwordleGrid>
     </div>
   );
