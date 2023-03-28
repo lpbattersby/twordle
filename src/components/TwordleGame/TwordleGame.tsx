@@ -6,11 +6,14 @@ import TwordleTile from "../TwordleTile/TwordleTile";
 import React from "react";
 
 function TwordleGame() {
-  const words = Games[0];
+  const gameNumber = Math.abs(new Date().getDate() - new Date(process.env.REACT_APP_INITIAL_DATE!).getDate()) + 1;
+
+  const words = Games[gameNumber];
   const gameGrid = GenerateGame(words[0], words[1]);
 
   return (
     <div>
+      <h2>Game {gameNumber}</h2>
       <TwordleGrid>
         {GenerateGameTileProps(gameGrid).map((tile, index) => {
           return (
