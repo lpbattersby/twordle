@@ -1,26 +1,18 @@
 import React from 'react';
 import './App.css';
-import TwordleGrid from "./components/TwordleGrid/TwordleGrid";
-import TwordleTile from "./components/TwordleTile/TwordleTile";
-import GenerateGameTileProps from "./utils/GenerateGameTileProps";
-import GenerateGame from "./utils/GenerateGame";
-import Games from "./data/games.json";
+import TwordleGame from "./components/TwordleGame/TwordleGame";
+import AppContext, { IAppContext } from "./components/AppContext";
 
 function App() {
-  const words = Games[0];
-  const gameGrid = GenerateGame(words[0], words[1]);
+  const appContext: IAppContext = {};
 
   return (
-    <div className="App">
-      <h1>Twordle</h1>
-      <TwordleGrid>
-        {GenerateGameTileProps(gameGrid).map((tile) => {
-          return (
-            <TwordleTile disabled={tile.disabled}/>
-          )
-        })}
-      </TwordleGrid>
-    </div>
+    <AppContext.Provider value={appContext}>
+      <div className={"App"}>
+        <h1>Twordle</h1>
+        <TwordleGame/>
+      </div>
+    </AppContext.Provider>
   );
 }
 
