@@ -1,15 +1,14 @@
-import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import './Tile.css';
-import AppContext from "../AppContext";
 
 type TileState = "correct-place" | "wrong-place" | "incorrect";
 
 export interface TileProps extends React.HTMLProps<any> {
   disabled : boolean,
   tileState: TileState,
-  chosenLetter: string,
+  onLetterChange: (letter: string, coordinates: [number, number]) => void,
   isInput: boolean,
-  coordinates: number[]
+  coordinates: [number, number]
 }
 
 const getBackgroundColor = (isInput: boolean, state: TileState) => {
@@ -26,9 +25,8 @@ const getBackgroundColor = (isInput: boolean, state: TileState) => {
   }
 };
 
-const Tile = ({ tileState, disabled, coordinates, isInput, chosenLetter }: TileProps) => {
+const Tile = ({ tileState, disabled, coordinates, isInput, onLetterChange }: TileProps) => {
   const [ currentLetter, setCurrentLetter ] = useState("");
-  const { currentGrid, setCurrentGrid } = useContext(AppContext)!;
   const [ color, setColor ] = useState("#333333");
 
   useEffect(() => {
@@ -36,10 +34,8 @@ const Tile = ({ tileState, disabled, coordinates, isInput, chosenLetter }: TileP
   }, [tileState]);
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setCurrentLetter(e.target.value[0] ? e.target.value[0].toLowerCase() : e.target.value.toLowerCase() );
-    let newGuessGrid = currentGrid;
-    newGuessGrid[coordinates[0]][coordinates[1]] = e.target.value[0] ? e.target.value[0].toLowerCase() : e.target.value.toLowerCase() ;
-    setCurrentGrid(newGuessGrid);
+    setCurrentLetter(e.target.value);
+    onLetterChange(e.target.value, coordinates);
   };
 
   return (
@@ -49,6 +45,7 @@ const Tile = ({ tileState, disabled, coordinates, isInput, chosenLetter }: TileP
           className={"TileInput"}
           disabled={disabled}
           value={currentLetter.toUpperCase()}
+          maxLength={1}
           onChange={(e) => handleOnChange(e)}
         /> : null
       }

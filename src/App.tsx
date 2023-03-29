@@ -12,8 +12,8 @@ function App() {
     ["", "", "", "", ""]
   ])
   const appContext: IAppContext = {
-    currentGrid: currentGuessGrid,
-    setCurrentGrid: setCurrentGuessGrid
+    currentGuess: currentGuessGrid,
+    setCurrentGuess: setCurrentGuessGrid
   };
 
   return (

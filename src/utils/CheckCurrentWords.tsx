@@ -10,11 +10,8 @@ const checkCurrentWords = (currentGrid: string[][], gameShape: number[]) => {
     word2 = word2.concat(currentGrid[i][gameShape[0]]);
   }
 
-  const wordsAreValid = Words.includes(word1) && Words.includes(word2)
+  const wordsAreValid = Words.includes(word1.toLowerCase()) && Words.includes(word2.toLowerCase())
 
-  console.log(gameShape);
-  console.log(word1);
-  console.log(word1, word2, wordsAreValid);
   return { word1, word2, wordsAreValid }
 }
 

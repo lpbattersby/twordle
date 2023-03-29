@@ -3,7 +3,7 @@
     width: 100%;
     text-align: center;
     line-height: 100%;
-    font-size: 1em;
+    font-size: 0.7em;
     display: flex;
     flex-wrap: wrap;
 }
@@ -18,4 +18,8 @@
     top: 0;
     text-align: inherit;
     font-size: inherit;
+}
+
+input:disabled {
+    color: inherit;
 }

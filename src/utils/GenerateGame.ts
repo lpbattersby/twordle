@@ -23,7 +23,6 @@ const GenerateGame = (word1: string, word2: string) => {
       ["", "", "", "", ""],
       ["", "", "", "", ""],
       ["", "", "", "", ""],
-      ["", "", "", "", ""],
       ["", "", "", "", ""]
     ];
 
@@ -57,11 +56,11 @@ const GenerateGame = (word1: string, word2: string) => {
     return counts;
   }
 
-  const solutionGrid = GenerateAnswersGrid(word2Column, word1Row);
+  const solution = GenerateAnswersGrid(word2Column, word1Row);
   const solutionLetterCounts = GetLetterCount(word1Row);
-  const gameShape = [word1Row, word2Column];
+  const gameShape: [number, number] = [word1Row, word2Column];
 
-  return { solutionGrid, solutionLetterCounts, gameShape };
+  return { solution, solutionLetterCounts, gameShape };
 }
 
 export default GenerateGame;
